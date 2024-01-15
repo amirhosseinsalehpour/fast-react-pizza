@@ -1,10 +1,11 @@
 // https://uibakery.io/regex-library/phone-number
+
 // const isValidPhone = (str) =>
 //   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
 //     str
 //   );
 
-import { Form, redirect } from "react-router-dom";
+import { Form, redirect, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 
 const fakeCart = [
@@ -32,6 +33,9 @@ const fakeCart = [
 ];
 
 function CreateOrder() {
+  const navigation = useNavigation();
+  const isSubmititing = navigation.state === "submitting";
+
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
 
@@ -72,7 +76,9 @@ function CreateOrder() {
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <button>Order now</button>
+          <button disabled={isSubmititing}>
+            {isSubmititing ? "Placing Order..." : "Order now"}
+          </button>
         </div>
       </Form>
     </div>
